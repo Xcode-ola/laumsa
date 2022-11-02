@@ -79,6 +79,7 @@ class ChapterList(models.Model):
 class CourseSummary(models.Model):
     chapter = models.ForeignKey(ChapterList, related_name="summary", on_delete=models.CASCADE)
     body = RichTextField()
+    isverified = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = 'Summary'
