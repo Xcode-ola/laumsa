@@ -77,6 +77,7 @@ class ChapterList(models.Model):
         return self.name
 
 class CourseSummary(models.Model):
+    course = models.ForeignKey(CourseList, related_name="summary", default=1, on_delete=models.CASCADE)
     chapter = models.ForeignKey(ChapterList, related_name="summary", on_delete=models.CASCADE)
     body = RichTextField()
     isverified = models.BooleanField(default=False)
@@ -86,4 +87,4 @@ class CourseSummary(models.Model):
         verbose_name_plural = 'Summaries'
 
     def __str__(self):
-        return self.course.title
+        return self.chapter.name
