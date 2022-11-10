@@ -17,4 +17,18 @@ class RegisterView(APIView):
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):
-    pass
+    def post(self, request):
+        email = request.data['email']
+        password = request.data['password']
+
+        user = User.objects.filter(email=email)
+        if user is not None:
+            raise AuthenticationFailed("User not found")
+
+        elif not user.check_password(password):
+            raise AuthenticationFailed("Incorrect password")
+
+        else:
+            return Response({
+                'message':'Login Successful'
+            })
