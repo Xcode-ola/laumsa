@@ -33,7 +33,7 @@ class ContactPageSerializer(serializers.ModelSerializer):
         ]
 
 class ChapterListSerializer(serializers.ModelSerializer):
-    #summary = serializers.HyperlinkedIdentityField(view_name='summary',lookup_field = "slug")
+    summary = serializers.HyperlinkedIdentityField(view_name='summary',lookup_field = "slug")
     class Meta:
         model = ChapterList
         fields = [
@@ -41,7 +41,7 @@ class ChapterListSerializer(serializers.ModelSerializer):
             'course',
             'name',
             'slug',
-            #'summary',
+            'summary',
         ]
 
 class ChapterSerializer(serializers.Serializer):
