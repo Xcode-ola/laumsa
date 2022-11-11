@@ -7,6 +7,7 @@ from rest_framework.response import Response
 from rest_framework.test import APIRequestFactory
 from rest_framework.request import Request
 
+
 # Create your views here.
 class IndexPage(generics.ListCreateAPIView):
     queryset = CourseList.objects.all()
