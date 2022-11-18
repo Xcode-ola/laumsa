@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CourseList, Quiz, contact_details, ChapterList, CourseSummary
+from .models import CourseList, Quiz, contact_details, ChapterList, CourseSummary, Question, Answer
 
 #homepage serializer for the website. The page contains all the courses and a link to the contact address
 class IndexPageSerializer(serializers.ModelSerializer):
@@ -91,4 +91,22 @@ class QuizListSerializer(serializers.ModelSerializer):
             'course',
             'name',
             'quiz',
+        ]
+
+class AnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Answer
+        fields = [
+            'choice',
+            'correct',
+        ]
+
+class QuizSerializer(serializers.ModelSerializer):
+    answer = AnswerSerializer(many=True, read_only=True)
+    class Meta:
+        model = Question
+        fields = [
+            'id',
+            'question',
+            'answer',
         ]
