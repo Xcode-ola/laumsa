@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from .serializer import ChapterListSerializer, ContactPageSerializer, IndexPageSerializer, SummaryPageSerializer,QuizHomePageSerializer
-from .models import ChapterList, contact_details, CourseList, CourseSummary
+from .serializer import ChapterListSerializer, ContactPageSerializer, IndexPageSerializer, SummaryPageSerializer,QuizHomePageSerializer, QuizListSerializer
+from .models import ChapterList, Question, contact_details, CourseList, CourseSummary, Quiz
 from rest_framework import generics, permissions, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -40,3 +40,9 @@ class QuizHomePage(generics.ListAPIView):
     queryset = CourseList.objects.all()
     serializer_class = QuizHomePageSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+class QuizListPage(APIView):
+    def get(self, request, format=None, **kwargs):
+        question = Quiz.objects.filter(course__name = kwargs['name'])
+        serializer = QuizListSerializer(question, many=True)
+        return Response(serializer.data)
