@@ -68,5 +68,5 @@ class QuizHomePageSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'name',
-            'chapter',
+            'quiz',
         ]

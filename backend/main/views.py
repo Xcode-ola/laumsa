@@ -36,7 +36,7 @@ class SummaryPage(APIView):
         serializer = SummaryPageSerializer(instance=question, many=True, context=serializer_context)
         return Response(serializer.data)
 
-class QuizPage(generics.ListAPIView):
+class QuizHomePage(generics.ListAPIView):
     queryset = CourseList.objects.all()
     serializer_class = QuizHomePageSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
