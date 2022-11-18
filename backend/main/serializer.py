@@ -56,3 +56,17 @@ class SummaryPageSerializer(serializers.ModelSerializer):
             'chapter',
             'body',
         ]
+
+class QuizHomePageSerializer(serializers.ModelSerializer):
+    quiz = serializers.HyperlinkedIdentityField(
+        view_name='chapter',
+        lookup_field = "name"
+    )
+
+    class Meta:
+        model = CourseList
+        fields = [
+            'id',
+            'name',
+            'chapter',
+        ]

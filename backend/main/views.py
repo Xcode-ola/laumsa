@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .serializer import ChapterListSerializer, ContactPageSerializer, IndexPageSerializer, SummaryPageSerializer
+from .serializer import ChapterListSerializer, ContactPageSerializer, IndexPageSerializer, SummaryPageSerializer,QuizHomePageSerializer
 from .models import ChapterList, contact_details, CourseList, CourseSummary
 from rest_framework import generics, permissions, status
 from rest_framework.views import APIView
@@ -35,3 +35,8 @@ class SummaryPage(APIView):
         question = CourseSummary.objects.filter(course__name = kwargs['name']).filter(chapter__slug = kwargs['slug_field'])
         serializer = SummaryPageSerializer(instance=question, many=True, context=serializer_context)
         return Response(serializer.data)
+
+class QuizPage(generics.ListAPIView):
+    queryset = CourseList.objects.all()
+    serializer_class = QuizHomePageSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
