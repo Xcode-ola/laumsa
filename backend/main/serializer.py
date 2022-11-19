@@ -3,16 +3,15 @@ from .models import CourseList, Quiz, contact_details, ChapterList, CourseSummar
 
 #homepage serializer for the website. The page contains all the courses and a link to the contact address
 class IndexPageSerializer(serializers.ModelSerializer):
-    chapter = serializers.HyperlinkedIdentityField(
-        view_name='chapter',
-        lookup_field = "name"
-    )
+    chapter = serializers.HyperlinkedIdentityField(view_name='chapter',lookup_field = "name")
+    quiz = serializers.HyperlinkedIdentityField(view_name='quiz_list',lookup_field = "name")
     class Meta:
         model = CourseList
         fields = [
             'id',
             'name',
             'chapter',
+            'quiz'
         ]
 
 #contact page serializer
@@ -32,11 +31,11 @@ class ContactPageSerializer(serializers.ModelSerializer):
             'facebook',
         ]
 
+class ChapterSerializer(serializers.Serializer):
+    name = serializers.CharField(read_only=True)
+
 class ChapterListSerializer(serializers.ModelSerializer):
-    summary = serializers.HyperlinkedIdentityField(
-        view_name='summary',
-        lookup_field = "slug"
-    )
+    #summary = serializers.HyperlinkedIdentityField(view_name='main:summary',lookup_field = 'slug',)
 
     class Meta:
         model = ChapterList
@@ -45,11 +44,8 @@ class ChapterListSerializer(serializers.ModelSerializer):
             'course',
             'name',
             'slug',
-            'summary',
+            #'summary',
         ]
-
-class ChapterSerializer(serializers.Serializer):
-    name = serializers.CharField(read_only=True)
 
 class SummaryPageSerializer(serializers.ModelSerializer):
     chapter = ChapterSerializer(read_only=True)
@@ -62,17 +58,14 @@ class SummaryPageSerializer(serializers.ModelSerializer):
         ]
 
 class QuizHomePageSerializer(serializers.ModelSerializer):
-    quiz = serializers.HyperlinkedIdentityField(
-        view_name='quiz_list',
-        lookup_field = "name"
-    )
+    #quiz = serializers.HyperlinkedIdentityField(view_name='quiz_list',lookup_field = "name")
 
     class Meta:
         model = CourseList
         fields = [
             'id',
             'name',
-            'quiz',
+            #'quiz',
         ]
 
 class CourseSerializer(serializers.Serializer):
@@ -80,17 +73,14 @@ class CourseSerializer(serializers.Serializer):
 
 class QuizListSerializer(serializers.ModelSerializer):
     course = ChapterSerializer(read_only=True)
-    quiz = serializers.HyperlinkedIdentityField(
-        view_name='quiz_list',
-        lookup_field = "name"
-    )
+    #quiz = serializers.HyperlinkedIdentityField(view_name='start_quiz',lookup_field = "id",)
     class Meta:
         model = Quiz
         fields = [
             'id',
             'course',
             'name',
-            'quiz',
+            #'quiz',
         ]
 
 class AnswerSerializer(serializers.ModelSerializer):

@@ -36,6 +36,9 @@ class ContactPage(generics.ListCreateAPIView):
 class Chapters(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     def get(self, request, format=None, **kwargs):
+        #factory = APIRequestFactory()
+        #request = factory.get('https://localhost:8000/course/<str:name>/')
+        #serializer_context = {'request':Request(request)}
         question = ChapterList.objects.filter(course__name = kwargs['name'])
         serializer = ChapterListSerializer(question, many=True)
         return Response(serializer.data)
@@ -43,11 +46,8 @@ class Chapters(APIView):
 class SummaryPage(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     def get(self, request, format=None, **kwargs):
-        factory = APIRequestFactory()
-        request = factory.get('/')
-        serializer_context = {'request':Request(request)}
         question = CourseSummary.objects.filter(course__name = kwargs['name']).filter(chapter__slug = kwargs['slug_field'])
-        serializer = SummaryPageSerializer(instance=question, many=True, context=serializer_context)
+        serializer = SummaryPageSerializer(instance=question, many=True)
         return Response(serializer.data)
 
 class QuizHomePage(generics.ListAPIView):
@@ -57,14 +57,18 @@ class QuizHomePage(generics.ListAPIView):
 
 class QuizListPage(APIView):
     def get(self, request, format=None, **kwargs):
-        question = Quiz.objects.filter(course__name = kwargs['name'])
-        serializer = QuizListSerializer(question, many=True)
+        factory = APIRequestFactory()
+        #request = factory.get('http://127.0.0.1:8000/start_quiz/<int:pk>/')
+        #request = factory.get('http://127.0.0.1:8000/start_quiz/')
+        #serializer_context = {'request':Request(request)}
+        quiz = Quiz.objects.filter(course__name = kwargs['name'])
+        serializer = QuizListSerializer(quiz, many=True,)
         return Response(serializer.data)
 
 class StartQuiz(APIView):
     permission_classes = [permissions.IsAuthenticated]
     pagination_classes = [PageNumberPagination()]
     def get(self, request, format=None, **kwargs):
-        question = Question.objects.filter(chapter__id = kwargs['pk']).order_by('?')[:100]
+        question = Question.objects.filter(quiz__id = kwargs['pk']).order_by('?')[:100]
         serializer = QuizSerializer(question, many=True)
         return Response(serializer.data)
