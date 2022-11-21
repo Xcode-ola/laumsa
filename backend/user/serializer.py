@@ -111,3 +111,18 @@ class UpdateUserSerializer(serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    change_password = serializers.HyperlinkedIdentityField(view_name='change_password', lookup_field = 'pk')
+    update_profile = serializers.HyperlinkedIdentityField(view_name='update_profile', lookup_field = 'pk')
+    class Meta:
+        model = User
+        fields = [
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+            'change_password',
+            'update_profile',
+        ]

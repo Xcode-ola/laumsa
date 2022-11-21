@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CourseList, Quiz, contact_details, ChapterList, CourseSummary, Question, Answer
+from .models import *
 
 #homepage serializer for the website. The page contains all the courses and a link to the contact address
 class IndexPageSerializer(serializers.ModelSerializer):

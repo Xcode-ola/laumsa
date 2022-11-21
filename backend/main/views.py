@@ -47,7 +47,8 @@ class SummaryPage(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     def get(self, request, format=None, **kwargs):
         question = CourseSummary.objects.filter(course__name = kwargs['name']).filter(chapter__slug = kwargs['slug_field'])
-        serializer = SummaryPageSerializer(instance=question, many=True)
+        summary = question.filter(isverified=True)
+        serializer = SummaryPageSerializer(instance=summary, many=True)
         return Response(serializer.data)
 
 class QuizHomePage(generics.ListAPIView):
