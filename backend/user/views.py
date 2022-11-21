@@ -7,14 +7,14 @@ from .models import User
 from .serializer import RegisterSerializer
 from rest_framework import generics
 
-class ChangePasswordView(generics.UpdateAPIView):
+class ChangePasswordView(generics.RetrieveUpdateAPIView):
 
     queryset = User.objects.all()
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = ChangePasswordSerializer
 
 
-class UpdateProfileView(generics.UpdateAPIView):
+class UpdateProfileView(generics.RetrieveUpdateAPIView):
 
     queryset = User.objects.all()
     permission_classes = [permissions.IsAuthenticated]
