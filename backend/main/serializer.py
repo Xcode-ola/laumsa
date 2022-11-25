@@ -100,3 +100,12 @@ class QuizSerializer(serializers.ModelSerializer):
             'question',
             'answer',
         ]
+
+class TheorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PracticeQuestion
+        fields = [
+            'id',
+            'question',
+            'answer',
+        ]

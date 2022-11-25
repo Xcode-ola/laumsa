@@ -74,10 +74,18 @@ class StartQuiz(APIView):
         serializer = QuizSerializer(question, many=True)
         return Response(serializer.data)
 
-class PracticeQuePage(APIView):
+class PracticeQuestionPage(APIView):
     permission_classes = [permissions.IsAuthenticated]
-    pagination_classes = [PageNumberPagination()]
+    pagination_classes = [StandardResultsSetPagination()]
     def get(self, request, format=None, **kwargs):
-        question = Question.objects.filter(quiz__id = kwargs['pk']).order_by('?')[:100]
-        serializer = QuizSerializer(question, many=True)
+        question = PracticeQuestion.objects.filter(course__name = kwargs['name']).filter(chapter__slug = kwargs['slug_field'])
+        serializer = TheorySerializer(question, many=True)
+        return Response(serializer.data)
+
+class PracticeQuestionList(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    pagination_classes = [StandardResultsSetPagination()]
+    def get(self, request, format=None, **kwargs):
+        question = PracticeQuestion.objects.filter(course__name = kwargs['name'])
+        serializer = TheorySerializer(question, many=True)
         return Response(serializer.data)

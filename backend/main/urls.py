@@ -8,5 +8,7 @@ urlpatterns = [
     path('course/<str:name>/<str:slug_field>/', SummaryPage.as_view(), name="summary"),
     path('quiz/', QuizHomePage.as_view(), name="quiz"),
     path('quiz/<str:name>/', QuizListPage.as_view(), name="quiz_list"),
-    path('start_quiz/<int:pk>/', StartQuiz.as_view(), name="start_quiz")
+    path('start_quiz/<int:pk>/', StartQuiz.as_view(), name="start_quiz"),
+    path('theory/<str:name>/', PracticeQuestionList.as_view(), name="practice-list"),
+    path('theory/<str:name>/<str:slug_field>/', PracticeQuestionPage.as_view(), name="practice-page")
 ]
