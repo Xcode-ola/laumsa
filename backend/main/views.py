@@ -10,7 +10,7 @@ from rest_framework.pagination import PageNumberPagination
 
 # Create your views here.
 class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 10
+    page_size = 25
     page_size_query_param = 'page_size'
     def get_paginated_response(self, data):
         return Response({
@@ -67,6 +67,14 @@ class QuizListPage(APIView):
         return Response(serializer.data)
 
 class StartQuiz(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    pagination_classes = [PageNumberPagination()]
+    def get(self, request, format=None, **kwargs):
+        question = Question.objects.filter(quiz__id = kwargs['pk']).order_by('?')[:100]
+        serializer = QuizSerializer(question, many=True)
+        return Response(serializer.data)
+
+class PracticeQuePage(APIView):
     permission_classes = [permissions.IsAuthenticated]
     pagination_classes = [PageNumberPagination()]
     def get(self, request, format=None, **kwargs):

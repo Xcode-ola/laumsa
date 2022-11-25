@@ -88,3 +88,17 @@ class CourseSummary(models.Model):
 
     def __str__(self):
         return self.chapter.name
+
+class PracticeQuestion(models.Model):
+    course = models.ForeignKey(CourseList, related_name="practice", default=1, on_delete=models.CASCADE)
+    chapter = models.ForeignKey(ChapterList, related_name="practice", on_delete=models.CASCADE)
+    question = models.TextField()
+    answer = RichTextField()
+    isverified = models.BooleanField(default=False)
+
+    class Meta:
+        verbose_name = 'Practice Question'
+        verbose_name_plural = 'Practice Questions'
+
+    def __str__(self):
+        return self.chapter.name
