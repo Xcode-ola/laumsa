@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .serializer import *
+from .permissions import *
 from .models import ChapterList, Question, contact_details, CourseList, CourseSummary, Quiz
 from rest_framework import generics, permissions, status
 from rest_framework.views import APIView
@@ -26,12 +27,12 @@ class StandardResultsSetPagination(PageNumberPagination):
 class IndexPage(generics.ListCreateAPIView):
     queryset = CourseList.objects.all()
     serializer_class = IndexPageSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
 class ContactPage(generics.ListCreateAPIView):
     queryset = contact_details.objects.all()
     serializer_class = ContactPageSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAdminUser]
 
 class Chapters(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
