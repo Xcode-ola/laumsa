@@ -137,7 +137,8 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PERMISSION_CLASSES':[
         'rest_framework.permissions.IsAuthenticatedOrReadOnly'
-    ]
+    ],
+    'DEFAULT_SCHEMA_CLASS':'rest_framework.schemas.coreapi.AutoSchema'
 }
 
 SIMPLE_JWT = {
