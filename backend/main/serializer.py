@@ -5,7 +5,7 @@ from .models import *
 class IndexPageSerializer(serializers.ModelSerializer):
     chapter = serializers.HyperlinkedIdentityField(view_name='chapter',lookup_field = "name")
     quiz = serializers.HyperlinkedIdentityField(view_name='quiz_list',lookup_field = "name")
-    theory = serializers.HyperlinkedIdentityField(view_name='practice-list',lookup_field = "name")
+    theory = serializers.HyperlinkedIdentityField(view_name='practice_list',lookup_field = "name")
     class Meta:
         model = CourseList
         fields = [

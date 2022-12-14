@@ -11,7 +11,7 @@ from rest_framework.pagination import PageNumberPagination
 
 # Create your views here.
 class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 25
+    page_size = 20
     page_size_query_param = 'page_size'
     def get_paginated_response(self, data):
         return Response({
@@ -35,7 +35,7 @@ class ContactPage(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAdminUser]
 
 class Chapters(APIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request, format=None, **kwargs):
         #factory = APIRequestFactory()
         #request = factory.get('https://localhost:8000/course/<str:name>/')
@@ -45,7 +45,7 @@ class Chapters(APIView):
         return Response(serializer.data)
 
 class SummaryPage(APIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request, format=None, **kwargs):
         question = CourseSummary.objects.filter(course__name = kwargs['name']).filter(chapter__slug = kwargs['slug_field'])
         summary = question.filter(isverified=True)
@@ -55,9 +55,10 @@ class SummaryPage(APIView):
 class QuizHomePage(generics.ListAPIView):
     queryset = CourseList.objects.all()
     serializer_class = QuizHomePageSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
 
 class QuizListPage(APIView):
+    permission_classes = [permissions.IsAuthenticated]
     def get(self, request, format=None, **kwargs):
         factory = APIRequestFactory()
         #request = factory.get('http://127.0.0.1:8000/start_quiz/<int:pk>/')
@@ -88,5 +89,5 @@ class PracticeQuestionList(APIView):
     pagination_classes = [StandardResultsSetPagination()]
     def get(self, request, format=None, **kwargs):
         question = PracticeQuestion.objects.filter(course__name = kwargs['name'])
-        serializer = TheorySerializer(question, many=True)
+        serializer = ChapterListSerializer(question, many=True)
         return Response(serializer.data)
